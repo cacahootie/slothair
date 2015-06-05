@@ -1,0 +1,12 @@
+airport_id, Airport ID, Unique OpenFlights identifier for this airport.
+name, Name, Name of airport. May or may not contain the City name.
+city, City, Main city served by airport. May be spelled differently from Name.
+country, Country, Country or territory where airport is located.
+iata_faa_id, IATA/FAA ID, 3-letter FAA code, for airports located in Country "United States of America". 3-letter IATA code, for all other airports.
+icao, ICAO ID, 4-Letter ICAO Code, Blank if not entered.
+lat, Latitude, Decimal degrees, usually to six significant digits. Negative is South, positive is North.
+lng, Longitude, Decimal degrees, usually to six significant digits. Negative is West, positive is East.
+altitude, Altitude, Altitude in feet.
+tz_offset, Timezone Offset, Hours offset from UTC. Fractional hours are expressed as decimals, eg. India is 5.5.
+dst, DST, Daylight savings time. One of E (Europe), A (US/Canada), S (South America), O (Australia), Z (New Zealand), N (None) or U (Unknown).
+tz, Timezone ID, Timezone in "tz" (Olson) format, eg. "America/Los_Angeles".
