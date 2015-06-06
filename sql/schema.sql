@@ -4,14 +4,14 @@ DROP TABLE ROUTES;
 
 CREATE TABLE AIRPORTS
 	(
-		airport_id integer, name varchar, city varchar, country varchar,
+		airport_id varchar, name varchar, city varchar, country varchar,
 		iata_faa_id char(3), icao_id char(4), lat real, lng real,
 		altitude varchar, tz_offset varchar, dst char(1), tz varchar
 	);
 
 CREATE TABLE AIRLINES
 	(
-		airline_id integer, name varchar, alias varchar, iata_id char(3),
+		airline_id varchar, name varchar, alias varchar, iata_id char(3),
 		icao_id char(5), callsign varchar, country varchar, active char(1)
 	);
 
