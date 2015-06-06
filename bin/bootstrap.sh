@@ -16,21 +16,25 @@ cp -R -f /vagrant/etc /
 
 /etc/init.d/postgresql restart
 
-su vagrant
 cd /home/vagrant
 
 mkdir /home/vagrant/.envs
-sudo chown -R vagrant /home/vagrant/.envs
 echo "export WORKON_HOME=/home/vagrant/.envs" >> /home/vagrant/.bashrc
 echo "source /usr/local/bin/virtualenvwrapper.sh" >> /home/vagrant/.bashrc
+echo "workon slothair" >> /home/vagrant/.bashrc
+echo "alias dbshell='psql -d slothair'" >> /home/vagrant/.bashrc
 export WORKON_HOME=/home/vagrant/.envs
 source /usr/local/bin/virtualenvwrapper.sh
 mkvirtualenv slothair
-echo "workon slothair" >> /home/vagrant/.bashrc
 
 cd /vagrant
 
 pip install -r requirements.txt
 
+chown -R vagrant /home/vagrant/.envs
+
 cd /vagrant/bin
 exec ./getdata.sh
+
+psql -d slothair -f /vagrant/sql/schema.sql
+python /vagrant/script/load_openflights.py
