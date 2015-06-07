@@ -1,18 +1,27 @@
-$(window).load(function () {
-	// create a map in the "map" div, set the view to a given place and zoom
-	var map = L.map('map').setView([30, -110], 6);
+var map;
 
-	// add an OpenStreetMap tile layer
+function draw_map (d) {
+	try {
+		map.remove();
+	} catch (e) {
+		console.log('lol')
+	}
+	map = L.map('map').setView([30, -110], 6);
+
 	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 	    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 	}).addTo(map);
 
-	d3.json('/sources', function(d) {
-		d['sources'].forEach(function(dd) {
-			console.log(dd);
-			L.marker([dd['lat'],dd['lng']])
-				.bindPopup(dd)
-				.addTo(map);
-		})
+	d['results'].forEach(function(dd) {
+		L.marker([dd['lat'],dd['lng']])
+			.on('click', function map_click () {
+				d3.select('#info_window').text(dd.name);
+				d3.json('/routes/' + dd.iata_faa_id, draw_map);
+			})
+			.addTo(map);
 	})
+}
+
+$(window).load(function () {
+	d3.json('/sources', draw_map);
 })

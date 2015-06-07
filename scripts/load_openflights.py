@@ -22,6 +22,7 @@ for table in ('airlines', 'airports', 'routes'):
 
 conn.commit()
 
+cur.execute("""REFRESH MATERIALIZED VIEW INTERNATIONAL_ROUTES;""")
 cur.execute("""REFRESH MATERIALIZED VIEW ROUTES_PER_AIRPORT;""")
 
 conn.commit()

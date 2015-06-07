@@ -40,7 +40,7 @@ def routes(source):
     	)
     	destinations = [dict(r) for r in cur]
     	return jsonify({
-    		'destinations':destinations,
+    		'results':destinations,
     		'source_id': source,
     		'numresults': len(destinations)
     	})
@@ -58,7 +58,7 @@ def sources():
         )
         sources = [dict(r) for r in cur]
         return jsonify({
-            'sources':sources,
+            'results':sources,
             'numresults': len(sources)
         })
 
