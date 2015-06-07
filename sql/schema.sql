@@ -1,3 +1,4 @@
+DROP MATERIALIZED VIEW ROUTES_PER_AIRPORT;
 DROP TABLE AIRPORTS;
 DROP TABLE AIRLINES;
 DROP TABLE ROUTES;
@@ -23,3 +24,11 @@ CREATE TABLE ROUTES
 		codeshare char(1), stops integer,
 		equipment varchar
 	);
+
+CREATE MATERIALIZED VIEW ROUTES_PER_AIRPORT
+AS
+	SELECT
+		source_id as source_id,
+		COUNT(dest_id) AS num_routes
+	FROM ROUTES
+	GROUP BY source_id;
