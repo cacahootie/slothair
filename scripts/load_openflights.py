@@ -1,16 +1,21 @@
 """Load the 3 csv files from openflights.org into the slothair pg db."""
 
 import os
+import subprocess
 
 import psycopg2
 
-conn = psycopg2.connect(dbname='slothair')
+conn = psycopg2.connect(dbname='slothair', user='vagrant')
 cur = conn.cursor()
 
-import_path = os.path.abspath('../import')
-script_path = '../sql/schema.sql'
+basedir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-cur.execute(open(script_path).read())
+import_path = os.path.join(basedir, 'import')
+script_path = os.path.join(basedir, 'sql','schema.sql')
+
+print script_path
+
+subprocess.call(['psql -U vagrant -d slothair -f ' + script_path], shell=True)
 
 for table in ('airlines', 'airports', 'routes'):
 	cur.execute(
@@ -24,5 +29,6 @@ conn.commit()
 
 cur.execute("""REFRESH MATERIALIZED VIEW INTERNATIONAL_ROUTES;""")
 cur.execute("""REFRESH MATERIALIZED VIEW ROUTES_PER_AIRPORT;""")
+cur.execute("""REFRESH MATERIALIZED VIEW INTERNATIONAL_ROUTES_PER_AIRPORT;""")
 
 conn.commit()
