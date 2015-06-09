@@ -1,22 +1,22 @@
 cd ~
 
 mkdir ~/.envs
-echo "export WORKON_HOME=/home/vagrant/.envs" >> /home/vagrant/.bashrc
-echo "source /usr/local/bin/virtualenvwrapper.sh" >> /home/vagrant/.bashrc
-echo "workon slothair" >> /home/vagrant/.bashrc
-echo "alias dbshell='psql -d slothair'" >> /home/vagrant/.bashrc
+echo "export WORKON_HOME=/home/vagrant/.envs" >> /home/web/.bashrc
+echo "source /usr/local/bin/virtualenvwrapper.sh" >> /home/web/.bashrc
+echo "workon slothair" >> /home/web/.bashrc
+echo "alias dbshell='psql -d slothair'" >> /home/web/.bashrc
 
-export WORKON_HOME=/home/vagrant/.envs
+export WORKON_HOME=/home/web/.envs
 source /usr/local/bin/virtualenvwrapper.sh
 
 mkvirtualenv slothair
 
-cd /vagrant
+cd /opt/slothair
 
 pip install -r requirements.txt
 
-cd /vagrant/bin
+cd /opt/slothair/bin
 ./getdata.sh
 
-cd /vagrant/scripts
+cd /opt/slothair/scripts
 python load_openflights.py

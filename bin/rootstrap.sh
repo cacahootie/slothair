@@ -9,9 +9,9 @@ apt-get upgrade
 apt-get install -y postgresql-9.4 python-pip python-dev postgresql-server-dev-9.4
 pip install virtualenvwrapper
 
-sudo -u postgres createuser --superuser vagrant
+sudo -u postgres createuser --superuser slothair
 sudo -u postgres createdb slothair
 
-cp -R -f /vagrant/etc /
+cp -R -f /opt/slothair/etc /
 
 /etc/init.d/postgresql restart
