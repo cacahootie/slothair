@@ -6,8 +6,14 @@ function draw_map (d) {
 	if (display_layer) map.removeLayer(display_layer);
 
 	display_layer = L.layerGroup();
+	var result_div = d3.select('#result_inner');
+	result_div.html('')
 
 	d['results'].forEach(function(dd) {
+		result_div.append('div')
+			.html(dd.name + '<br />' + dd.city + '<br />' + dd.iata_faa_id)
+			.classed('result',true)
+
 		L.marker([dd.lat,dd.lng])
 			.bindPopup(dd.iata_faa_id)
 			.on('mouseover', function show_tooltip () { this.openPopup(); })
@@ -27,7 +33,7 @@ function draw_map (d) {
 
 				source_layer.addTo(map);
 
-				d3.select('#info_window').html(
+				d3.select('#info').html(
 					"Non Stop from <br />" + dd.name + '<br />' + dd.city
 					+ '<br />' + dd.country
 				);

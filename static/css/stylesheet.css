@@ -7,16 +7,38 @@ body, html {
 }
 
 div#map {
-	width: 100%;
+	width: 80%;
 	height: 100%;
+	float: left;
 }
 
-div#info_window {
+div#info {
 	z-index: 150;
 	position: absolute;
 	top: 2em;
-	right: 2em;
+	right: 22%;
 	background: black;
 	color: white;
 	font-size: x-large;
+}
+
+div#results {
+	width: 20%;
+	height: 100%;
+	background: white;
+	float: left;
+	overflow: auto;
+}
+
+div#result_inner {
+	padding: 1em;
+}
+
+div.result {
+	background: lightgray;
+	padding: 1em;
+	margin-top: 1em;
+	margin-left: auto;
+	margin-right: auto;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
