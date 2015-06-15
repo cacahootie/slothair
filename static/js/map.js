@@ -1,15 +1,22 @@
 var map,
     display_layer,
-    source_layer,
-    lng_offset = 50;
+    source_layer;
 
 function draw_map (d) {
 	if (display_layer) map.removeLayer(display_layer);
 	display_layer = L.layerGroup();
 
-	var result_div = d3.select('#result_container')
-	result_div.html('')
+	var result_div = d3.select('#result_container');
+	result_div.html('');
 
+	var center = map.getCenter().lng;
+
+	if (center < 0) {
+		var lng_offset = center + 180;
+	} else {
+		var lng_offset = 180 - center;
+	}
+	
 	d['results'].forEach(function(dd) {
 		var detail = dd.name + '<br />' + dd.iata_faa_id;
 		result_div.append('div')
