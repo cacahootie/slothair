@@ -53,7 +53,7 @@ function draw_map (d) {
 
 				d3.select('#info').html("From " + detail);
 
-				d3.json('/international/' + dd.iata_faa_id, draw_map);
+				d3.json('/routes/' + dd.iata_faa_id, draw_map);
 			})
 			.addTo(display_layer);
 	})
