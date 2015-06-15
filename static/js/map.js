@@ -1,6 +1,7 @@
 var map,
     display_layer,
-    source_layer;
+    source_layer,
+    lng_offset = 50;
 
 function draw_map (d) {
 	if (display_layer) map.removeLayer(display_layer);
@@ -9,14 +10,18 @@ function draw_map (d) {
 	var result_div = d3.select('#result_container')
 	result_div.html('')
 
-	var detail;
 	d['results'].forEach(function(dd) {
-		detail = dd.name + '<br />' + dd.iata_faa_id;
+		var detail = dd.name + '<br />' + dd.iata_faa_id;
 		result_div.append('div')
 			.html(detail)
 			.classed('result',true)
 
-		L.circleMarker([dd.lat,dd.lng], {
+		var lng = dd.lng;
+		if (lng > lng_offset) {
+			lng = lng - 360;
+		}
+
+		L.circleMarker([dd.lat, lng], {
 			color: 'red',
 			fillColor: 'blue',
 			radius: 10,
@@ -30,8 +35,13 @@ function draw_map (d) {
 				try { map.removeLayer(source_layer); } catch (e) {}
 
 				source_layer = L.layerGroup();
+
+				var lng = dd.lng;
+				if (lng > lng_offset) {
+					lng = lng - 360;
+				}
 				
-				var circle = L.circleMarker([dd.lat, dd.lng], {
+				var circle = L.circleMarker([dd.lat, lng], {
 					color: 'red',
 					radius: 14,
 					weight: 10,
@@ -41,12 +51,9 @@ function draw_map (d) {
 
 				source_layer.addTo(map);
 
-				d3.select('#info').html(
-					"Non Stop from <br />" + dd.name + '<br />' + dd.city
-					+ '<br />' + dd.country
-				);
+				d3.select('#info').html("From " + detail);
 
-				d3.json('/routes/' + dd.iata_faa_id, draw_map);
+				d3.json('/international/' + dd.iata_faa_id, draw_map);
 			})
 			.addTo(display_layer);
 	})
