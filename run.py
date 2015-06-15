@@ -1,6 +1,7 @@
 """Explore flight routes."""
 
 import os
+import time
 
 import psycopg2
 import psycopg2.extras
@@ -9,7 +10,11 @@ from flask import Flask, jsonify
 basedir = os.path.dirname(os.path.abspath(__file__))
 index_path = os.path.join(basedir,'static','index.html')
 
-conn = psycopg2.connect(dbname='slothair', user='slothair')
+try:
+    conn = psycopg2.connect(dbname='slothair', user='slothair')
+except psycopg2.OperationalError:
+    time.sleep(3)
+    conn = psycopg2.connect(dbname='slothair', user='slothair')
 
 app = Flask(
     'slothair',
