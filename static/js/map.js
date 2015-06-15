@@ -6,12 +6,12 @@ function draw_map (d) {
 	if (display_layer) map.removeLayer(display_layer);
 	display_layer = L.layerGroup();
 
-	var result_div = d3.select('#result_inner')
+	var result_div = d3.select('#result_container')
 	result_div.html('')
 
 	var detail;
 	d['results'].forEach(function(dd) {
-		detail = dd.city + '<br />' + dd.iata_faa_id;
+		detail = dd.name + '<br />' + dd.iata_faa_id;
 		result_div.append('div')
 			.html(detail)
 			.classed('result',true)

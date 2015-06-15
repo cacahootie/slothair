@@ -18,11 +18,16 @@
         <div id="info"></div>
         <div id="map"></div>
         <div id="results">
-            <h2>Non Stop Destinations</h2>
-            <div id="result_inner"></div>
+            <div id="result_inner">
+                <h2>Non Stop Destinations</h2>
+                <i onclick="d3.json('/sources', draw_map)">Reset</i>
+                <div id="result_container"></div>
+            </div>
         </div>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.9.3/lodash.js" type="text/javascript"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.1/backbone-min.js" type="text/javascript"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js" type="text/javascript"></script>
         <script src="/static/js/map.js" type="text/javascript"></script>

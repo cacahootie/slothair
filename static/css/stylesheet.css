@@ -67,11 +67,18 @@ h1, h2 {
 	font-family: 'Prosto One', cursive;
 }
 
-div#results h2 {
-	padding-top: 0.5em;
-	padding-left: 0.5em;
-}
-
 a.leaflet-popup-close-button {
 	display: none;
+}
+
+#result_inner>i {
+	display: inline-block;
+	font-size: x-large;
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	cursor: pointer;
+}
+
+#result_inner>i:hover {
+	color: red;
 }

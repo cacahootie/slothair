@@ -18,7 +18,7 @@ app = Flask(
 )
 
 @app.route("/")
-def hello():
+def index():
     return open(index_path).read()
 
 @app.route("/routes/<source>")
