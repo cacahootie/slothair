@@ -9,7 +9,7 @@ from flask import Flask, jsonify
 basedir = os.path.dirname(os.path.abspath(__file__))
 index_path = os.path.join(basedir,'static','index.html')
 
-conn = psycopg2.connect(dbname='slothair')
+conn = psycopg2.connect(dbname='slothair', user='slothair')
 
 app = Flask(
     'slothair',

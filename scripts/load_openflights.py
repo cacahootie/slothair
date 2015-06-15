@@ -5,7 +5,7 @@ import subprocess
 
 import psycopg2
 
-conn = psycopg2.connect(dbname='slothair', user='vagrant')
+conn = psycopg2.connect(dbname='slothair', user='slothair')
 cur = conn.cursor()
 
 basedir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -15,7 +15,7 @@ script_path = os.path.join(basedir, 'sql','schema.sql')
 
 print script_path
 
-subprocess.call(['psql -U vagrant -d slothair -f ' + script_path], shell=True)
+subprocess.call(['psql -U slothair -d slothair -f ' + script_path], shell=True)
 
 for table in ('airlines', 'airports', 'routes'):
 	cur.execute(

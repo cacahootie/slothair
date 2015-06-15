@@ -1,22 +1,27 @@
+appdir="/opt/slothair"
+if [ -d "/vagrant" ]; then
+	appdir="/vagrant"
+fi
+
 cd ~
 
 mkdir ~/.envs
-echo "export WORKON_HOME=/home/vagrant/.envs" >> /home/vagrant/.bashrc
-echo "source /usr/local/bin/virtualenvwrapper.sh" >> /home/vagrant/.bashrc
-echo "workon slothair" >> /home/vagrant/.bashrc
-echo "alias dbshell='psql -d slothair'" >> /home/vagrant/.bashrc
+echo "export WORKON_HOME=/home/vagrant/.envs" >> ~/.bashrc
+echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
+echo "workon slothair" >> ~/.bashrc
+echo "alias dbshell='psql -d slothair'" >> ~/.bashrc
 
-export WORKON_HOME=/home/vagrant/.envs
+export WORKON_HOME=~/.envs
 source /usr/local/bin/virtualenvwrapper.sh
 
 mkvirtualenv slothair
 
-cd /vagrant
+cd $appdir
 
 pip install -r requirements.txt
 
-cd /vagrant/bin
+cd $appdir/bin
 ./getdata.sh
 
-cd /vagrant/scripts
+cd $appdir/scripts
 python load_openflights.py
