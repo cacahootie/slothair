@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-wget --quiet -O ../import/airports.dat "https://sourceforge.net/p/openflights/code/HEAD/tree/openflights/data/airports.dat?format=raw"
-wget --quiet -O ../import/airlines.dat "https://sourceforge.net/p/openflights/code/HEAD/tree/openflights/data/airlines.dat?format=raw"
-wget --quiet -O ../import/routes.dat "https://sourceforge.net/p/openflights/code/HEAD/tree/openflights/data/routes.dat?format=raw"
+wget -O ../import/airports.dat "https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat"
+wget -O ../import/airlines.dat "https://raw.githubusercontent.com/jpatokal/openflights/master/data/airlines.dat"
+wget -O ../import/routes.dat "https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat"
 
 iconv -c -f ISO8859-1 -t ASCII ../import/airlines.dat > ../import/airlines.csv
 iconv -c -f ISO8859-1 -t ASCII ../import/airports.dat > ../import/airports.csv

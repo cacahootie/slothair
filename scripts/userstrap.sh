@@ -20,7 +20,7 @@ cd $appdir
 
 pip install -r requirements.txt
 
-cd $appdir/bin
+cd $appdir/scripts
 ./getdata.sh
 
 cd $appdir/scripts
