@@ -50,6 +50,18 @@ def routes(source):
     		'numresults': len(destinations)
     	})
 
+@app.route("/airport/<iata>")
+def airport(iata):
+    with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
+        cur.execute("""
+            SELECT * FROM AIRPORTS
+            WHERE IATA_FAA_ID = %(iata)s
+            ;""",
+            {
+                'iata': iata
+            }
+        )
+        return jsonify([dict(r) for r in cur][0])
 
 @app.route("/sources")
 def sources():
