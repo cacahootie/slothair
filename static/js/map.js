@@ -74,7 +74,6 @@ var MapView = BaseView.extend({
     },
     initialize: function () {
         MainView.prototype.initialize.call(this);
-        this.get_sources();
     },
     render: function(){
         var mapCenter = MapState.get('mapCenter');
@@ -111,6 +110,7 @@ var MapView = BaseView.extend({
                 lng = lng - 360;
             }
 
+            self.map.setView([d.lat,lng])
             var circle = L.circleMarker([d.lat, lng], {
                 color: 'red',
                 radius: 14,
@@ -124,14 +124,18 @@ var MapView = BaseView.extend({
             var detail = d.name + '<br />' + d.iata_faa_id;
             d3.select('#info').html("From " + detail);
 
-            d3.json('/routes/' + d.iata_faa_id, draw_map);
+            d3.json('/routes/' + d.iata_faa_id, function (d) {
+                self.load_layer(d);
+            });
         })
     },
     load_layer: function(d) {
         results.data = d
         var map = this.map;
     	var display_layer = this.display_layer;
-    	if (display_layer) map.removeLayer(display_layer);
+    	try {
+            map.removeLayer(display_layer);
+        } catch (e) {  }
 		display_layer = L.layerGroup();
 
 		var result_div = d3.select('#result_container');
@@ -175,6 +179,7 @@ var MapView = BaseView.extend({
 		})
 
 		display_layer.addTo(map);
+        this.display_layer = display_layer;
     }
 });
 
@@ -187,6 +192,7 @@ var ResultsView = BaseView.extend({
 
 var AppRouter = Backbone.Router.extend({
     routes: {
+        "":"home",
         "home":"home",
         "routes/:source":"rts",
     },
@@ -212,7 +218,8 @@ var AppRouter = Backbone.Router.extend({
         }
     },
     home: function () {
-        this.loadView(HomeView,null,items);
+        console.log('dickcream');
+        this.view.get_sources();
     },
     rts: function (source) {
     	this.view.mapview.select_route(source)
