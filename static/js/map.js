@@ -36,7 +36,7 @@ var AppView = BaseView.extend({
         this.mapviewview = new MapviewView();
         this.mapview = new MapView();
         this.resultsview = new ResultsView();
-        router.view = this;
+        return this;
     }
 });
 
@@ -218,15 +218,16 @@ var AppRouter = Backbone.Router.extend({
         }
     },
     home: function () {
-        console.log('dickcream');
-        this.view.get_sources();
+        this.view.mapview.get_sources();
     },
     rts: function (source) {
     	this.view.mapview.select_route(source)
     }
 });
 
-var router = new AppRouter();
+
 var base = new AppView();
+var router = new AppRouter();
+router.view = base;
 $(window).on("hashchange", router.hashChange);
 Backbone.history.start();
