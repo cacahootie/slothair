@@ -40,23 +40,13 @@ div#results {
 	overflow: auto;
 }
 
-div#results a {
-	color: black;
-	font-style: italic;
-	text-decoration: none;
-	font-size: x-large;
-}
 
-div#results a:hover {
-	color: red;
-	text-decoration: italic;
-}
 
 div#result_inner {
 	padding: 1em;
 }
 
-div#result_inner>p>a {
+a.results_go_origins {
 	display: inline-block;
 	font-size: x-large;
 	text-decoration: none;
@@ -64,8 +54,12 @@ div#result_inner>p>a {
 	color: black;
 }
 
-div#result_inner>p>a:hover {
+a.results_go_origins:hover {
 	color: red;
+}
+
+div#result_container {
+	font-family: 'Prosto One', cursive;
 }
 
 div.result {
@@ -79,6 +73,15 @@ div.result {
 
 div.result:first-child {
 	margin-top: 1em;
+}
+
+div.result>a {
+	color: black;
+	text-decoration: none;
+}
+
+div.result>a:hover {
+	color: darkblue;
 }
 
 div#header {

@@ -1,11 +1,3 @@
-var map,
-    display_layer,
-    source_layer;
-
-function draw_map (d) {
-	
-}
-
 var attrtext = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | <a href="http://openflights.org">OpenFlights</a>'
 
 var BaseView = Backbone.View.extend({
@@ -116,13 +108,13 @@ var MapView = BaseView.extend({
 
             self.source_layer.addTo(self.map);
 
-            var detail = d.name + '<br />' + d.iata_faa_id;
-            d3.select('#info').html("From " + detail);
+            var detail = d.name + '<br />(' + d.iata_faa_id + ')';
+            d3.select('#info').html(detail);
 
-            self.load_layer(routes);
+            self.load_layer(routes, d.lat);
         })
     },
-    load_layer: function(d) {
+    load_layer: function(d, center) {
         results.data = d
         var map = this.map;
     	var display_layer = this.display_layer;
@@ -131,7 +123,7 @@ var MapView = BaseView.extend({
         } catch (e) {  }
 		display_layer = L.layerGroup();
 
-		var center = map.getCenter().lng;
+		if (!center) center = map.getCenter().lng;
 
 		if (center < 0) {
 			this.lng_offset = center + 180;
@@ -140,7 +132,7 @@ var MapView = BaseView.extend({
 		}
 
 		d['results'].forEach(function(dd) {
-			var detail = dd.name + '<br />' + dd.iata_faa_id;
+			var detail = d.name + '<br />(' + d.iata_faa_id + ')';
             detail = '<a href="#routes/' + dd.iata_faa_id + '">' + detail + '</a>'
 			
 			var lng = dd.lng;
