@@ -73,7 +73,7 @@ var MapView = BaseView.extend({
         MapState.set('mapZoom', this.map.getZoom());
     },
     initialize: function () {
-        MainView.prototype.initialize.call(this);
+        BaseView.prototype.initialize.call(this);
     },
     render: function(){
         var mapCenter = MapState.get('mapCenter');
@@ -94,11 +94,6 @@ var MapView = BaseView.extend({
     },
     display_layer: false,
     source_layer: false,
-    get_sources: function() {
-    	var self = this;
-    	d3.json('/sources', function(d) { self.load_layer(d); });
-    	return this;
-    },
     select_route: function(d) {
         var self = this;
         d3.json('/airport/'+d, function got_airport (d) {
@@ -138,9 +133,6 @@ var MapView = BaseView.extend({
         } catch (e) {  }
 		display_layer = L.layerGroup();
 
-		var result_div = d3.select('#result_container');
-		result_div.html('');
-
 		var center = map.getCenter().lng;
 
 		if (center < 0) {
@@ -152,10 +144,7 @@ var MapView = BaseView.extend({
 		d['results'].forEach(function(dd) {
 			var detail = dd.name + '<br />' + dd.iata_faa_id;
             detail = '<a href="#routes/' + dd.iata_faa_id + '">' + detail + '</a>'
-			result_div.append('div')
-				.html(detail)
-				.classed('result',true)
-
+			
 			var lng = dd.lng;
 			if (lng > this.lng_offset) {
 				lng = lng - 360;
@@ -186,7 +175,20 @@ var MapView = BaseView.extend({
 
 var ResultsView = BaseView.extend({
 	el: '#results',
-    template: $("#results_templ").html()
+    template: $("#results_templ").html(),
+    load_results: function(d, whichend) {
+        var result_div = d3.select('#result_container');
+        result_div.html('');
+        d3.select("#results_title").text('Non Stop ' + whichend);
+        
+        d['results'].forEach(function(dd) {
+            var detail = dd.name + '<br />' + dd.iata_faa_id;
+            detail = '<a href="#routes/' + dd.iata_faa_id + '">' + detail + '</a>'
+            result_div.append('div')
+                .html(detail)
+                .classed('result',true)
+        })
+    },
 });
 
 
@@ -218,10 +220,18 @@ var AppRouter = Backbone.Router.extend({
         }
     },
     home: function () {
-        this.view.mapview.get_sources();
+        var self = this;
+        d3.json('/sources', function(d) {
+            self.view.mapview.load_layer(d);
+            self.view.resultsview.load_results(d, 'Origins');
+        });
     },
     rts: function (source) {
-    	this.view.mapview.select_route(source)
+        var self = this;
+        d3.json('/routes/' + source, function(d) {
+            self.view.mapview.select_route(source);
+            self.view.resultsview.load_results(d, 'Destinations');
+        });
     }
 });
 
