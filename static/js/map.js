@@ -94,9 +94,9 @@ var MapView = BaseView.extend({
     },
     display_layer: false,
     source_layer: false,
-    select_route: function(d) {
+    select_route: function(routes, source) {
         var self = this;
-        d3.json('/airport/'+d, function got_airport (d) {
+        d3.json('/airport/'+source, function got_airport (d) {
             if(self.source_layer) { self.map.removeLayer(self.source_layer); }
             self.source_layer = L.layerGroup();
 
@@ -119,9 +119,7 @@ var MapView = BaseView.extend({
             var detail = d.name + '<br />' + d.iata_faa_id;
             d3.select('#info').html("From " + detail);
 
-            d3.json('/routes/' + d.iata_faa_id, function (d) {
-                self.load_layer(d);
-            });
+            self.load_layer(routes);
         })
     },
     load_layer: function(d) {
@@ -194,8 +192,7 @@ var ResultsView = BaseView.extend({
 
 var AppRouter = Backbone.Router.extend({
     routes: {
-        "":"home",
-        "home":"home",
+        "":"origins",
         "routes/:source":"rts",
     },
     loadView: function(view,params,coll) {
@@ -219,7 +216,7 @@ var AppRouter = Backbone.Router.extend({
             }
         }
     },
-    home: function () {
+    origins: function () {
         var self = this;
         d3.json('/sources', function(d) {
             self.view.mapview.load_layer(d);
@@ -229,7 +226,7 @@ var AppRouter = Backbone.Router.extend({
     rts: function (source) {
         var self = this;
         d3.json('/routes/' + source, function(d) {
-            self.view.mapview.select_route(source);
+            self.view.mapview.select_route(d, source);
             self.view.resultsview.load_results(d, 'Destinations');
         });
     }
