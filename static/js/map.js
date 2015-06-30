@@ -132,7 +132,7 @@ var MapView = BaseView.extend({
 		}
 
 		d['results'].forEach(function(dd) {
-			var detail = d.name + '<br />(' + d.iata_faa_id + ')';
+			var detail = dd.name + '<br />(' + dd.iata_faa_id + ')';
             detail = '<a href="#routes/' + dd.iata_faa_id + '">' + detail + '</a>'
 			
 			var lng = dd.lng;
