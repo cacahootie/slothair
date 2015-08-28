@@ -1,0 +1,39 @@
+{
+  "request": {
+    "passengers": {
+      "kind": "qpxexpress#passengerCounts",
+      "adultCount": integer,
+      "childCount": integer,
+      "infantInLapCount": integer,
+      "infantInSeatCount": integer,
+      "seniorCount": integer
+    },
+    "slice": [
+      {
+        "kind": "qpxexpress#sliceInput",
+        "origin": string,
+        "destination": string,
+        "date": string,
+        "maxStops": integer,
+        "maxConnectionDuration": integer,
+        "preferredCabin": string,
+        "permittedDepartureTime": {
+          "kind": "qpxexpress#timeOfDayRange",
+          "earliestTime": string,
+          "latestTime": string
+        },
+        "permittedCarrier": [
+          string
+        ],
+        "alliance": string,
+        "prohibitedCarrier": [
+          string
+        ]
+      }
+    ],
+    "maxPrice": string,
+    "saleCountry": string,
+    "refundable": boolean,
+    "solutions": integer
+  }
+}
