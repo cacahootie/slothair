@@ -32,8 +32,8 @@ def get_multi(possibilities):
 		pass
 	return retval
 
-def get_slice_trips(slice):
-	return slice['trips']['tripOption']
+def get_slice_trips(tslice):
+	return tslice['response']['trips']['tripOption']
 
 def get_slice(origin, dest, date):
 	params = {
