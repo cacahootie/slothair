@@ -5,7 +5,7 @@ import time
 
 import psycopg2
 import psycopg2.extras
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 
 basedir = os.path.dirname(os.path.abspath(__file__))
 index_path = os.path.join(basedir,'static','index.html')
@@ -25,6 +25,10 @@ app = Flask(
 @app.route("/")
 def index():
     return open(index_path).read()
+
+@app.route("/search/")
+def search():
+    return render_template('search.html')
 
 @app.route("/routes/<source>")
 def routes(source):
