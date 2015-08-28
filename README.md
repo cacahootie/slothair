@@ -23,4 +23,4 @@ Data Acknowledgement
 =====================
 
 This application relies upon and during the vagrant provisioning will download
-data from openflights.org.
+data from openflights.org.  Data is used pursuant to the Open Database License.
