@@ -14,6 +14,7 @@ apikey = open(keypath).read()
 basequery = open(os.path.join(basedir,'templates','search_request.json')).read()
 
 def get_routes(origin, dest, date):
+	return get_slice('LAX','NRT','2015-12-25')
 	return get_multi(get_possibilities(origin, dest, date))
 
 def get_possibilities(origins, destinations, dates):
@@ -33,7 +34,7 @@ def get_multi(possibilities):
 	return retval
 
 def get_slice_trips(tslice):
-	return tslice['response']['trips']['tripOption']
+	return tslice['trips']['tripOption']
 
 def get_slice(origin, dest, date):
 	params = {
