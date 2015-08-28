@@ -5,7 +5,11 @@ import time
 
 import psycopg2
 import psycopg2.extras
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, redirect, request
+
+from forms import FlightSearchForm
+from interfaces import get_qpx
+
 
 basedir = os.path.dirname(os.path.abspath(__file__))
 index_path = os.path.join(basedir,'static','index.html')
@@ -26,9 +30,20 @@ app = Flask(
 def index():
     return open(index_path).read()
 
-@app.route("/search/")
-def search():
-    return render_template('search.html')
+@app.route("/search/", methods=['GET'])
+def search_get():
+    return render_template('search.html', form = FlightSearchForm())
+
+@app.route("/search/", methods=['POST'])
+def search_post():
+    form = FlightSearchForm(request.form)
+    if form.validate():
+        return jsonify(get_qpx(form.origin.data, form.dest.data, form.date.data))
+    return redirect('/search/results/')
+
+@app.route("/search/results/", methods=['GET'])
+def search_results():
+    return render_template('search_results.html', form = FlightSearchForm())
 
 @app.route("/routes/<source>")
 def routes(source):

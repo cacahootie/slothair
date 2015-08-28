@@ -8,15 +8,6 @@
     </head>
     
     <body>
-        Hello!
-
-        <form method="POST" action="/search/">
-            {{ form.hidden_tag() }}
-            {% for field in form if field.widget.input_type != 'hidden' %}
-                {{ field.label }}
-                {{ field }}
-            {% endfor %}
-            <input type="submit" value="Go">
-        </form>
+        Hello There!
     </body>
 </html>

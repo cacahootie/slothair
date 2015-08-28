@@ -2,38 +2,33 @@
   "request": {
     "passengers": {
       "kind": "qpxexpress#passengerCounts",
-      "adultCount": integer,
-      "childCount": integer,
-      "infantInLapCount": integer,
-      "infantInSeatCount": integer,
-      "seniorCount": integer
+      "adultCount": 1,
+      "childCount": 0,
+      "infantInLapCount": 0,
+      "infantInSeatCount": 0,
+      "seniorCount": 0
     },
     "slice": [
       {
         "kind": "qpxexpress#sliceInput",
-        "origin": string,
-        "destination": string,
-        "date": string,
-        "maxStops": integer,
-        "maxConnectionDuration": integer,
-        "preferredCabin": string,
+        "origin": "LAX",
+        "destination": "NRT",
+        "date": "2015-12-25",
+        "maxStops": 3,
+        "maxConnectionDuration": 1800,
+        "preferredCabin": "COACH",
         "permittedDepartureTime": {
           "kind": "qpxexpress#timeOfDayRange",
-          "earliestTime": string,
-          "latestTime": string
+          "earliestTime": "00:00",
+          "latestTime": "23:59"
         },
-        "permittedCarrier": [
-          string
-        ],
-        "alliance": string,
-        "prohibitedCarrier": [
-          string
-        ]
+        "permittedCarrier": [],
+        "prohibitedCarrier": []
       }
     ],
-    "maxPrice": string,
-    "saleCountry": string,
-    "refundable": boolean,
-    "solutions": integer
+    "maxPrice": "USD20000",
+    "saleCountry": "US",
+    "refundable": "false",
+    "solutions": 2
   }
 }
