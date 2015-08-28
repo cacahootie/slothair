@@ -8,7 +8,7 @@ import psycopg2.extras
 from flask import Flask, jsonify, render_template, redirect, request
 
 from forms import FlightSearchForm
-from interfaces import get_qpx
+from interfaces import get_routes
 
 
 basedir = os.path.dirname(os.path.abspath(__file__))
@@ -38,7 +38,7 @@ def search_get():
 def search_post():
     form = FlightSearchForm(request.form)
     if form.validate():
-        return jsonify(get_qpx(form.origin.data, form.dest.data, form.date.data))
+        return jsonify(get_routes(form.origin.data, form.dest.data, form.date.data))
     return redirect('/search/results/')
 
 @app.route("/search/results/", methods=['GET'])
