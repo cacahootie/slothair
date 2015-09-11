@@ -5,6 +5,8 @@ from itertools import product
 from operator import itemgetter
 
 import requests
+import dateutil.parser as dtparse
+import datetime
 
 baseurl = "https://www.googleapis.com/qpxExpress/v1/trips/search"
 headers = {'content-type': 'application/json'}
@@ -24,11 +26,23 @@ def get_sorted(routes, sortby):
 def get_routes(origin, dest, date, numresults):
 	return get_multi( get_possibilities(origin, dest, date), numresults )
 
+def get_dates(dates):
+	if '+' in dates:
+		start, number = dates.split('+')
+		start = dtparse.parse(start).date()
+		dates = [start.isoformat()]
+		for i in range(int(number)):
+			start += datetime.timedelta(days=1)
+			dates.append(start.isoformat())
+		return dates
+	else:
+		return dates.split(',')
+
 def get_possibilities(origins, destinations, dates):
 	return list(product(
 		origins.split(','),
 		destinations.split(','),
-		dates.split(',')
+		get_dates(dates)
 	))
 
 def update_data(orig, upd):
