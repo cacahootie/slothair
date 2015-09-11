@@ -2,6 +2,7 @@
 
 import os
 import time
+from pprint import pprint
 
 import psycopg2
 import psycopg2.extras
@@ -38,7 +39,13 @@ def search_get():
 def search_post():
     form = FlightSearchForm(request.form)
     if form.validate():
-        return jsonify(get_routes(form.origin.data, form.dest.data, form.date.data))
+        routes = get_routes(
+            form.origin.data,
+            form.dest.data,
+            form.date.data,
+            form.numresults.data
+        )
+        return jsonify({"results":routes})
     return redirect('/search/results/')
 
 @app.route("/search/results/", methods=['POST'])
@@ -46,8 +53,13 @@ def search_results():
     form = FlightSearchForm(request.form)
     return render_template(
         'search_results.html',
-        form = FlightSearchForm(),
-        results = get_routes(form.origin.data, form.dest.data, form.date.data)
+        form = form,
+        results = get_routes(
+            form.origin.data,
+            form.dest.data,
+            form.date.data,
+            form.numresults.data
+        )
     )
 
 @app.route("/routes/<source>")

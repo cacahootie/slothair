@@ -10,7 +10,7 @@
     <body>
         Hello!
 
-        <form method="POST" action="/search/">
+        <form method="POST" action="/search/results/">
             {{ form.hidden_tag() }}
             {% for field in form if field.widget.input_type != 'hidden' %}
                 {{ field.label }}

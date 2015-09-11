@@ -29,6 +29,6 @@
     "maxPrice": "USD20000",
     "saleCountry": "US",
     "refundable": "false",
-    "solutions": 2
+    "solutions": 100
   }
 }
