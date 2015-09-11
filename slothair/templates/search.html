@@ -2,21 +2,26 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SlothAir Search</title>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
         <link href='http://fonts.googleapis.com/css?family=Prosto+One' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="/static/css/stylesheet.css" type="text/css">
     </head>
     
     <body>
-        Hello!
-
-        <form method="POST" action="/search/results/">
-            {{ form.hidden_tag() }}
-            {% for field in form if field.widget.input_type != 'hidden' %}
-                {{ field.label }}
-                {{ field }}
-            {% endfor %}
-            <input type="submit" value="Go">
-        </form>
+        <h1>SlothAir SuperSearch</h1>
+        <div class="searchbox">
+            <form method="POST" action="/search/results/" class="pure=form pure-form-aligned pure-form-stacked">
+                <fieldset>
+                    {{ form.hidden_tag() }}
+                    {% for field in form if field.widget.input_type != 'hidden' %}
+                        {{ field.label }}
+                        {{ field }}
+                    {% endfor %}
+                    <input type="submit" value="Go">
+                </fieldset>
+            </form>
+        </div>
     </body>
 </html>
