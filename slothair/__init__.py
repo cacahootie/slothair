@@ -9,7 +9,7 @@ import psycopg2.extras
 from flask import Flask, jsonify, render_template, redirect, request
 
 from forms import FlightSearchForm
-from interfaces import get_routes
+from interfaces import get_routes, get_sorted
 
 
 basedir = os.path.dirname(os.path.abspath(__file__))
@@ -54,12 +54,12 @@ def search_results():
     return render_template(
         'search_results.html',
         form = form,
-        results = get_routes(
+        results = get_sorted( get_routes(
             form.origin.data,
             form.dest.data,
             form.date.data,
-            form.numresults.data
-        )
+            form.numresults.data,
+        ), form.sortby.data )
     )
 
 @app.route("/routes/<source>")

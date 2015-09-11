@@ -2,7 +2,7 @@
 import os.path
 import json
 from itertools import product
-from pprint import pprint
+from operator import itemgetter
 
 import requests
 
@@ -13,6 +13,13 @@ basedir = os.path.dirname(os.path.abspath(__file__))
 keypath = os.path.join(basedir,'apikey')
 apikey = open(keypath).read()
 basequery = open(os.path.join(basedir,'templates','search_request.json')).read()
+
+sorters = {
+	'price': lambda x: float(x['saleTotal'].replace('USD','')),
+}
+
+def get_sorted(routes, sortby):
+	return sorted(routes, key=sorters[sortby])
 
 def get_routes(origin, dest, date, numresults):
 	return get_multi( get_possibilities(origin, dest, date), numresults )
