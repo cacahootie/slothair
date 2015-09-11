@@ -8,6 +8,34 @@
     </head>
     
     <body>
-        Hello There!
+        <ul>
+        {% for result in results.trips.tripOption %}
+            <li>
+            {{ result.saleTotal }}
+            {% for slice in result.slice %}
+                <ul>
+                {% for segment in slice.segment %}
+                    <li>
+                        {{ segment.flight.carrier }}
+                        {{ segment.flight.number }}
+                        <ul>
+                        {% for leg in segment.leg %}
+                            <li>
+                            {{ leg.origin }} -->
+                            {{ leg.destination }}
+                            {{ leg.departureTime }}
+                            {{ leg.arrivalTime }}
+                            {{ leg.duration }}
+                            {{ leg.mileage }}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% endfor %}
+            </li>
+        {% endfor %}
+        </ul>
     </body>
 </html>

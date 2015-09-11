@@ -41,9 +41,14 @@ def search_post():
         return jsonify(get_routes(form.origin.data, form.dest.data, form.date.data))
     return redirect('/search/results/')
 
-@app.route("/search/results/", methods=['GET'])
+@app.route("/search/results/", methods=['POST'])
 def search_results():
-    return render_template('search_results.html', form = FlightSearchForm())
+    form = FlightSearchForm(request.form)
+    return render_template(
+        'search_results.html',
+        form = FlightSearchForm(),
+        results = get_routes(form.origin.data, form.dest.data, form.date.data)
+    )
 
 @app.route("/routes/<source>")
 def routes(source):
