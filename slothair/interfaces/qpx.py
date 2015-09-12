@@ -11,10 +11,12 @@ import datetime
 baseurl = "https://www.googleapis.com/qpxExpress/v1/trips/search"
 headers = {'content-type': 'application/json'}
 
-basedir = os.path.dirname(os.path.abspath(__file__))
+basedir = os.path.join(os.path.dirname(os.path.abspath(__file__)),'../..')
 keypath = os.path.join(basedir,'apikey')
 apikey = open(keypath).read()
-basequery = open(os.path.join(basedir,'templates','search_request.json')).read()
+basequery = open(
+	os.path.join(basedir,'slothair','templates','search_request.json')
+).read()
 
 sorters = {
 	'price': lambda x: float(x['saleTotal'].replace('USD','')),

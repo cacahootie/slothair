@@ -9,7 +9,7 @@ import psycopg2.extras
 from flask import Flask, jsonify, render_template, redirect, request
 
 from forms import FlightSearchForm
-from interfaces import get_routes, get_sorted, format_isodate_time, duration
+from interfaces.qpx import get_routes, get_sorted, format_isodate_time, duration
 
 
 basedir = os.path.dirname(os.path.abspath(__file__))
