@@ -3,10 +3,12 @@ import os.path
 import json
 from itertools import product
 from operator import itemgetter
+import datetime
 
 import requests
 import dateutil.parser as dtparse
-import datetime
+
+from sorters import sorters
 
 baseurl = "https://www.googleapis.com/qpxExpress/v1/trips/search"
 headers = {'content-type': 'application/json'}
@@ -17,10 +19,6 @@ apikey = open(keypath).read()
 basequery = open(
 	os.path.join(basedir,'slothair','templates','search_request.json')
 ).read()
-
-sorters = {
-	'price': lambda x: float(x['saleTotal'].replace('USD','')),
-}
 
 def get_sorted(routes, sortby):
 	return sorted(routes, key=sorters[sortby])
@@ -98,16 +96,6 @@ def get_slice(origin, dest, date, numresults):
 		print r.text
 		raise ValueError
 	return result
-
-
-def format_isodate_time(value):
-	return dtparse.parse(value).strftime('%H:%M')
-
-def duration(value):
-	hours = value // 60
-	minutes = value - hours * 60
-	return "%sh%sm" % (hours, minutes)
-    
 
 if __name__ == '__main__':
 	print get_routes('LAX,SFO', 'NRT,HKG', '2015-12-25,2015-12-26', 10)

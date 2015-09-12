@@ -10,7 +10,7 @@ from flask import Flask, jsonify, render_template, redirect, request
 
 from forms import FlightSearchForm
 from interfaces.qpx import get_routes, get_sorted
-from filters import format_isodate_time, duration
+from formatters import isodate_time, duration
 
 
 basedir = os.path.dirname(os.path.abspath(__file__))
@@ -28,7 +28,7 @@ app = Flask(
     static_url_path='/static'
 )
 
-app.jinja_env.filters['isodate_time'] = format_isodate_time
+app.jinja_env.filters['isodate_time'] = isodate_time
 app.jinja_env.filters['duration'] = duration
 
 @app.route("/")

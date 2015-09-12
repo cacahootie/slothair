@@ -8,5 +8,5 @@ class FlightSearchForm(Form):
 	numresults = IntegerField('Number of Results', default = 10)
 	sortby = SelectField('Sort By', choices = [
 		('price', 'Price'),
-		('pain', 'Pain'),
+		('duration', 'Duration'),
 	])
