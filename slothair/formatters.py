@@ -1,3 +1,4 @@
+"""sort functions for qpxExpress"""
 
 import dateutil.parser as dtparse
 
