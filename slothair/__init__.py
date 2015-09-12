@@ -9,7 +9,7 @@ import psycopg2.extras
 from flask import Flask, jsonify, render_template, redirect, request
 
 from forms import FlightSearchForm
-from interfaces import get_routes, get_sorted
+from interfaces import get_routes, get_sorted, format_isodate_time, duration
 
 
 basedir = os.path.dirname(os.path.abspath(__file__))
@@ -26,6 +26,9 @@ app = Flask(
     static_folder=os.path.join(basedir,'static'),
     static_url_path='/static'
 )
+
+app.jinja_env.filters['isodate_time'] = format_isodate_time
+app.jinja_env.filters['duration'] = duration
 
 @app.route("/")
 def index():
@@ -114,3 +117,5 @@ def sources():
             'results':sources,
             'numresults': len(sources)
         })
+
+

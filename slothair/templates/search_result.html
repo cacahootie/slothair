@@ -1,6 +1,7 @@
 <li>
 {{ result.saleTotal }}
 {% for slice in result.slice %}
+    {{ slice.duration|duration }}
     <ul>
     {% for segment in slice.segment %}
         <li>
@@ -9,12 +10,7 @@
             <ul>
             {% for leg in segment.leg %}
                 <li>
-                {{ leg.origin }} -->
-                {{ leg.destination }}
-                {{ leg.departureTime }}
-                {{ leg.arrivalTime }}
-                {{ leg.duration }}
-                {{ leg.mileage }}
+                {{ leg.departureTime|isodate_time }} {{ leg.origin }} --> {{ leg.arrivalTime|isodate_time }} {{ leg.destination }} : {{ leg.duration|duration }}
                 </li>
             {% endfor %}
             </ul>

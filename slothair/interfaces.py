@@ -97,5 +97,15 @@ def get_slice(origin, dest, date, numresults):
 		raise ValueError
 	return result
 
+
+def format_isodate_time(value):
+	return dtparse.parse(value).strftime('%H:%M')
+
+def duration(value):
+	hours = value // 60
+	minutes = value - hours * 60
+	return "%sh%sm" % (hours, minutes)
+    
+
 if __name__ == '__main__':
 	print get_routes('LAX,SFO', 'NRT,HKG', '2015-12-25,2015-12-26', 10)
