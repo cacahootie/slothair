@@ -1,21 +1,23 @@
-<li>
-{{ result.saleTotal }}
+<div class="search_result">
+    <div class="result_summary">
+        <h3>{{ result.saleTotal }}</h3>
+    </div>
 {% for slice in result.slice %}
-    {{ slice.duration|duration }}
-    <ul>
-    {% for segment in slice.segment %}
-        <li>
-            {{ segment.flight.carrier }}
-            {{ segment.flight.number }}
-            <ul>
-            {% for leg in segment.leg %}
-                <li>
-                {{ leg.departureTime|isodate_time }} {{ leg.origin }} --> {{ leg.arrivalTime|isodate_time }} {{ leg.destination }} : {{ leg.duration|duration }}
-                </li>
-            {% endfor %}
-            </ul>
-        </li>
-    {% endfor %}
-    </ul>
+    <div class="slice_duration">
+        <h4 class="slice_duration_inner">{{ slice.duration|duration }}</h2>
+    </div>
+    <div class="slice_segment">
+        {% for segment in slice.segment %}
+                <div class="flight_info">
+                    <span class="flight_carrier">{{ segment.flight.carrier }}</span>
+                    <span class="flight_number">{{ segment.flight.number }}</span>
+                </div>
+                {% for leg in segment.leg %}
+                    <div class="flight_leg">
+                        {{ leg.departureTime|isodate_time }} {{ leg.origin }} --> {{ leg.arrivalTime|isodate_time }} {{ leg.destination }} : {{ leg.duration|duration }}
+                    </div>
+                {% endfor %}
+        {% endfor %}
+    </div>
 {% endfor %}
-</li>
+</div>

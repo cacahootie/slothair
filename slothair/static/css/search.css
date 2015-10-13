@@ -1,0 +1,68 @@
+
+body {
+	font-family: Lato, Arial;
+	font-size: 1.2em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin-top: 0;
+	margin-bottom: 0;
+	font-family: 'Prosto One', cursive;
+}
+
+div.searchbox {
+	background: lightgray;
+	width: 300px;
+}
+
+div.search_results {
+	width: 960px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+div.search_result {
+	display: block;
+	background: lightgray;
+	width: 960px;
+	border: 1px solid black;
+	margin: 20px;
+	padding: 10px;
+}
+
+.result_summary {
+	margin: 5px;
+	color: blue;
+}
+
+.slice_duration {
+    float: left;
+    height: 2em;
+    margin: 1em;
+    margin-right: 1em;
+    
+}
+
+.slice_duration_inner {
+	margin-bottom: 0;
+	padding: 0.2em;
+	border: 1px dashed black;
+}
+
+.flight_info {
+    float: left;
+
+}
+
+.flight_carrier {
+
+}
+
+.flight_number {
+
+}
+
+.flight_leg {
+    margin-bottom: 1em;
+	
+}

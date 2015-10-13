@@ -9,6 +9,7 @@ import requests
 import dateutil.parser as dtparse
 
 from sorters import sorters
+from memoize import memoized
 
 baseurl = "https://www.googleapis.com/qpxExpress/v1/trips/search"
 headers = {'content-type': 'application/json'}
@@ -23,6 +24,7 @@ basequery = open(
 def get_sorted(routes, sortby):
 	return sorted(routes, key=sorters[sortby])
 
+@memoized
 def get_routes(origin, dest, date, numresults):
 	return get_multi( get_possibilities(origin, dest, date), numresults )
 
