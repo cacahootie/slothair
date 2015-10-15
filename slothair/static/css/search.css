@@ -28,6 +28,7 @@ div.search_result {
 	border: 1px solid black;
 	margin: 20px;
 	padding: 10px;
+	min-height: 120px;
 }
 
 .result_summary {
