@@ -13,7 +13,7 @@
     <body>
         <h1>SlothAir SuperSearch</h1>
         <div class="searchbox">
-            <form method="POST" action="/search/results/" class="pure=form pure-form-aligned pure-form-stacked">
+            <form method="POST" action="/search/" class="pure=form pure-form-aligned pure-form-stacked">
                 <fieldset>
                     {{ form.hidden_tag() }}
                     {% for field in form if field.widget.input_type != 'hidden' %}
@@ -21,7 +21,6 @@
                         {{ field }}
                     {% endfor %}
                     <input type="submit" value="Go">
-                    <input type="submit" value="Get Json" formaction = "/search/">
                 </fieldset>
             </form>
         </div>

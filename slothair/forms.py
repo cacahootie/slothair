@@ -12,3 +12,7 @@ class FlightSearchForm(Form):
 		('price', 'Price'),
 		('duration', 'Duration'),
 	])
+	result_format = SelectField('Result Format', choices = [
+		('html','HTML'),
+		('json','JSON')
+	])

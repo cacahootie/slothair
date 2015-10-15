@@ -2,6 +2,7 @@
 
 import os
 import time
+import urllib
 
 import psycopg2
 import psycopg2.extras
@@ -40,34 +41,39 @@ def index():
 def search_get():
     return render_template('search.html', form = FlightSearchForm())
 
+def get_routes_sorted():
+    return get_sorted( get_routes(
+            request.args.get('origin'),
+            request.args.get('dest'),
+            request.args.get('date'),
+            request.args.get('numresults'),
+            request.args.get('refundable')
+        ), request.args.get('sortby')
+    )
+
+@app.route("/search/results/", methods=['GET'])
+def search_results():
+    if request.args.get('result_format') == 'html':
+        return render_template(
+            'search_results.html',
+            results = get_routes_sorted()
+        )
+    elif request.args.get('result_format') == 'json':
+        return jsonify({"results":get_routes_sorted()})
+
 @app.route("/search/", methods=['POST'])
 def search_post():
     form = FlightSearchForm(request.form)
     if form.validate():
-        routes = get_routes(
-            form.origin.data,
-            form.dest.data,
-            form.date.data,
-            form.numresults.data,
-            form.refundable.data
-        )
-        return jsonify({"results":routes})
-    return redirect('/search/results/')
-
-@app.route("/search/results/", methods=['POST'])
-def search_results():
-    form = FlightSearchForm(request.form)
-    return render_template(
-        'search_results.html',
-        form = form,
-        results = get_sorted( get_routes(
-            form.origin.data,
-            form.dest.data,
-            form.date.data,
-            form.numresults.data,
-            form.refundable.data
-        ), form.sortby.data )
-    )
+        return redirect('/search/results/?' + urllib.urlencode({
+            "origin": form.origin.data,
+            "dest": form.dest.data,
+            "date": form.date.data,
+            "numresults": form.numresults.data,
+            "refundable": form.refundable.data,
+            "sortby": form.sortby.data,
+            "result_format": form.result_format.data
+        }))
 
 @app.route("/routes/<source>")
 def routes(source):
