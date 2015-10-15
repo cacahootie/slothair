@@ -58,11 +58,8 @@ def get_possibilities(origins, destinations, dates):
 def update_data(orig, upd):
 	retval = {}
 	for cat, items in orig.items():
-		retval[cat] = [
-			json.loads(x) for x in set(
-				[ json.dumps(y, sort_keys=True) for y in items + upd[cat] ]
-			)
-		]
+		orig[cat] += upd[cat]
+		retval[cat] = orig[cat]
 	return retval
 
 def process_data(trips, data):
@@ -89,7 +86,6 @@ def get_multi(possibilities, numresults, refundable):
 			trips += subresult
 	except IndexError:
 		pass
-	#return data
 	return process_data(trips, data)
 
 def get_slice_trips(tslice):
