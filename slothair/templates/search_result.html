@@ -1,6 +1,6 @@
 <div class="search_result">
     <div class="result_summary">
-        <h3>{{ result.saleTotal }}</h3>
+        <h3>{{ result.saleTotal|currency_symbol }}</h3>
     </div>
 {% for slice in result.slice %}
     <div class="slice_duration">
@@ -9,7 +9,7 @@
     <div class="slice_segment">
         {% for segment in slice.segment %}
                 <div class="flight_info">
-                    <span class="flight_carrier">{{ segment.flight.carrier }}</span>
+                    <span class="flight_carrier">{{ segment.flight.carrier_display }}</span>
                     <span class="flight_number">{{ segment.flight.number }}</span>
                 </div>
                 {% for leg in segment.leg %}
@@ -18,6 +18,11 @@
                     </div>
                 {% endfor %}
         {% endfor %}
+    </div>
+    <div class="slice_refundable">
+        {% if result.pricing.0.refundable %}
+            <span>Refundable</span>
+        {% endif %}
     </div>
 {% endfor %}
 </div>

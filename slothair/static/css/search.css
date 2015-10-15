@@ -44,14 +44,22 @@ div.search_result {
 }
 
 .slice_duration_inner {
-	margin-bottom: 0;
+	margin-bottom: 1em;
 	padding: 0.2em;
 	border: 1px dashed black;
 }
 
+.slice_refundable {
+	float: right;
+	position: relative;
+	top: -4em;
+	right: 1em;
+}
+
 .flight_info {
     float: left;
-
+    margin-right: 5px;
+    font-weight: bold;
 }
 
 .flight_carrier {

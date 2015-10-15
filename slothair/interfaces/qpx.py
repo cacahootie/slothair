@@ -7,6 +7,7 @@ import datetime
 
 import requests
 import dateutil.parser as dtparse
+from flask import g
 
 from sorters import sorters
 from memoize import memoized
@@ -24,9 +25,16 @@ basequery = open(
 def get_sorted(routes, sortby):
 	return sorted(routes, key=sorters[sortby])
 
-@memoized
-def get_routes(origin, dest, date, numresults):
-	return get_multi( get_possibilities(origin, dest, date), numresults )
+def get_routes(origin, dest, date, numresults, refundable):
+	return get_multi(
+		get_possibilities(
+			origin,
+			dest,
+			date
+		),
+		numresults,
+		refundable
+	)
 
 def get_dates(dates):
 	if '+' in dates:
@@ -57,28 +65,41 @@ def update_data(orig, upd):
 		]
 	return retval
 
-def get_multi(possibilities, numresults):
-	retval = get_slice_trips( get_slice( *possibilities[0] + (numresults,) ) )
+def process_data(trips, data):
+	for result in trips:
+		for slc in result['slice']:
+			for segment in slc['segment']:
+				segment["flight"]["carrier_display"] = next(
+					x['name'] for x in data['carrier'] 
+					if x['code'] == segment["flight"]["carrier"]
+				)
+	return trips
+
+def get_multi(possibilities, numresults, refundable):
+	trips, data = get_slice_trips(
+		get_slice( *possibilities[0] + (numresults, refundable) )
+	)
+	g.qpk_lookup = data
 	try:
 		for p in possibilities[1:]:
-			subresult = get_slice_trips( get_slice(*p + (numresults,) ) )
-			retval += subresult
+			subresult, p_data = get_slice_trips(
+				get_slice(*p + (numresults, refundable) )
+			)
+			update_data(data, p_data)
+			trips += subresult
 	except IndexError:
 		pass
-	return retval
+	#return data
+	return process_data(trips, data)
 
 def get_slice_trips(tslice):
-	return tslice['trips']['tripOption']
 	try:
-		return {
-			"results":tslice['trips']['tripOption'],
-			"data":tslice['trips']['data']
-		}
+		return tslice['trips']['tripOption'], tslice['trips']['data']
 	except KeyError:
 		print tslice
 		raise
 
-def get_slice(origin, dest, date, numresults):
+def get_slice(origin, dest, date, numresults, refundable):
 	params = {
 		"key": apikey
 	}
@@ -87,6 +108,7 @@ def get_slice(origin, dest, date, numresults):
 	query['request']['slice'][0]['destination'] = dest
 	query['request']['slice'][0]['date'] = date
 	query['request']['solutions'] = numresults
+	query['request']['refundable'] = refundable
 	r = requests.post(
 		baseurl,
 		params = params,

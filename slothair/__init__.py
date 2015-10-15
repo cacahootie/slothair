@@ -2,7 +2,6 @@
 
 import os
 import time
-from pprint import pprint
 
 import psycopg2
 import psycopg2.extras
@@ -10,7 +9,7 @@ from flask import Flask, jsonify, render_template, redirect, request
 
 from forms import FlightSearchForm
 from interfaces.qpx import get_routes, get_sorted
-from formatters import isodate_time, duration
+from formatters import isodate_time, duration, currency_symbol
 
 
 basedir = os.path.dirname(os.path.abspath(__file__))
@@ -30,6 +29,7 @@ app = Flask(
 
 app.jinja_env.filters['isodate_time'] = isodate_time
 app.jinja_env.filters['duration'] = duration
+app.jinja_env.filters['currency_symbol'] = currency_symbol
 
 @app.route("/")
 def index():
@@ -47,7 +47,8 @@ def search_post():
             form.origin.data,
             form.dest.data,
             form.date.data,
-            form.numresults.data
+            form.numresults.data,
+            form.refundable.data
         )
         return jsonify({"results":routes})
     return redirect('/search/results/')
@@ -63,6 +64,7 @@ def search_results():
             form.dest.data,
             form.date.data,
             form.numresults.data,
+            form.refundable.data
         ), form.sortby.data )
     )
 
