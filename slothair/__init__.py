@@ -51,16 +51,6 @@ def get_routes_sorted():
         ), request.args.get('sortby')
     )
 
-@app.route("/search/results/", methods=['GET'])
-def search_results():
-    if request.args.get('result_format') == 'html':
-        return render_template(
-            'search_results.html',
-            results = get_routes_sorted()
-        )
-    elif request.args.get('result_format') == 'json':
-        return jsonify({"results":get_routes_sorted()})
-
 @app.route("/search/", methods=['POST'])
 def search_post():
     form = FlightSearchForm(request.form)
@@ -74,6 +64,16 @@ def search_post():
             "sortby": form.sortby.data,
             "result_format": form.result_format.data
         }))
+
+@app.route("/search/results/", methods=['GET'])
+def search_results():
+    if request.args.get('result_format') == 'html':
+        return render_template(
+            'search_results.html',
+            results = get_routes_sorted()
+        )
+    elif request.args.get('result_format') == 'json':
+        return jsonify({"results":get_routes_sorted()})
 
 @app.route("/routes/<source>")
 def routes(source):
