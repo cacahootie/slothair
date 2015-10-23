@@ -13,11 +13,60 @@ var AppView = BaseView.extend({
     }
 });
 
+var SearchView = BaseView.extend({
+    el:'#container',
+    template: $("#search_form").html(),
+    initialize: function () {
+        BaseView.prototype.initialize.call(this);
+        var editor = new JSONEditor(document.getElementById('editor_holder'),{
+            ajax: true,
+            theme: "bootstrap3",
+            disable_collapse: true,
+            schema: {
+              type: "object",
+              title: "Airfare Search",
+              properties: {
+                origin: {
+                    "$ref": "/forms/sourcelist"
+                },
+                destination: {
+                    "$ref": "/forms/sourcelist"
+                },
+                departure: {
+                    type: "string",
+                    format: "date"
+                },
+                numresults: {
+                    type: "string",
+                    format: "number",
+                    default: 10
+                },
+                refundable: {
+                    type: "boolean"
+                },
+                sortby: {
+                    type: "string",
+                    enum: ["price", "duration"]
+                },
+                result_format: {
+                    type: "string",
+                    enum: ["html","json"]
+                }
+              }
+            }
+          });
+      
+        document.getElementById('submit').addEventListener('click',function() {
+            window.location.href = "/search/results/?" + $.param(editor.getValue());
+        });
+    }
+})
 
 var AppRouter = Backbone.Router.extend({
     routes: {
         "":"origins",
         "routes/:source":"rts",
+        "search":"search",
     },
     loadView: function(view,params,coll) {
         $('#main').empty()
@@ -53,6 +102,9 @@ var AppRouter = Backbone.Router.extend({
             self.view.mapview.select_route(d, source);
             self.view.resultsview.load_results(d, 'Destinations');
         });
+    },
+    search: function () {
+        this.loadView(SearchView,{});
     }
 });
 

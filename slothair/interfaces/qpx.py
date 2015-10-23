@@ -70,6 +70,11 @@ def process_data(trips, data):
 					x['name'] for x in data['carrier'] 
 					if x['code'] == segment["flight"]["carrier"]
 				)
+				for leg in segment['leg']:
+					leg['aircraft_display'] = next(
+						x['name'] for x in data['aircraft'] 
+						if x['code'] == leg["aircraft"]
+					)
 	return trips
 
 def get_multi(possibilities, numresults, refundable):

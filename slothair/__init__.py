@@ -44,8 +44,8 @@ def search_get():
 def get_routes_sorted():
     return get_sorted( get_routes(
             request.args.get('origin'),
-            request.args.get('dest'),
-            request.args.get('date'),
+            request.args.get('destination'),
+            request.args.get('departure'),
             request.args.get('numresults'),
             request.args.get('refundable')
         ), request.args.get('sortby')
@@ -57,8 +57,8 @@ def search_post():
     if form.validate():
         return redirect('/search/results/?' + urllib.urlencode({
             "origin": form.origin.data,
-            "dest": form.dest.data,
-            "date": form.date.data,
+            "destination": form.dest.data,
+            "departure": form.date.data,
             "numresults": form.numresults.data,
             "refundable": form.refundable.data,
             "sortby": form.sortby.data,
@@ -87,4 +87,13 @@ def airport(iata):
 def sources():
     return jsonify(models.sources())
 
+@app.route("/sourcelist")
+def sourcelist():
+    return jsonify(models.sourcelist())
 
+@app.route("/forms/sourcelist")
+def sourcelist_props():
+    return jsonify({
+        "type": "string",
+        "enum": models.sourcelist()["results"]
+    })

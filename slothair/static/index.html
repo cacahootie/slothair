@@ -3,10 +3,14 @@
     <head>
         <meta charset="UTF-8">
         <title>SlothAir</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
         <link href='http://fonts.googleapis.com/css?family=Prosto+One' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="/static/css/stylesheet.css" type="text/css">
+        <link rel="stylesheet" href="/static/css/search.css" type="text/css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" type="text/css">
-        
+        <link href="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css" rel="stylesheet" />
+
     </head>
     
     <body>
@@ -19,9 +23,8 @@
 
         <script type="text/html" id="header_templ">
             <div id="header">
-                <div id="header_inner">
-                    <h1>SlothAir</h1>
-                </div>
+                <h1>SlothAir</h1>
+                <h3><a href="#search">SuperSearch</a></h3>
             </div>
         </script>
 
@@ -44,8 +47,17 @@
             </div>
         </script>
 
+        <script type="text/html" id="search_form">
+            <h1>SlothAir SuperSearch</h1>
+            <div id='editor_holder'></div>
+            <button id='submit'>Submit (console.log)</button>
+        </script>
+
         <!-- Prereqs -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" type="text/javascript"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+        <script src="https://cdn.rawgit.com/jdorn/json-editor/master/dist/jsoneditor.min.js"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/3.9.3/lodash.js" type="text/javascript"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.1/backbone-min.js" type="text/javascript"></script>
         <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>

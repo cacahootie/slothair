@@ -57,3 +57,16 @@ def sources():
             'results':sources,
             'numresults': len(sources)
         }
+
+def sourcelist():
+    with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
+        cur.execute("""
+            SELECT AIRPORTS.iata_faa_id FROM ROUTES_PER_AIRPORT
+            JOIN AIRPORTS
+                ON ROUTES_PER_AIRPORT.source_id = AIRPORTS.airport_id
+            WHERE NUM_ROUTES > 5
+            ;"""
+        )
+        return {
+            "results":sorted(r[0] for r in cur)
+        }

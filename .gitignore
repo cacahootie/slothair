@@ -63,3 +63,5 @@ target/
 
 *apikey*
 .search_cache
+slothair/static/js/select2/*
+slothair/static/js/jsoneditor.js

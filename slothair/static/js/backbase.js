@@ -18,6 +18,7 @@ var BaseView = Backbone.View.extend({
 
 
 var HeaderView = BaseView.extend({
+    el: '#header',
     template: $("#header_templ").html()
 });
 
