@@ -68,10 +68,6 @@ def airport(iata):
 def sources():
     return jsonify(models.sources())
 
-@app.route("/sourcelist")
-def sourcelist():
-    return jsonify(models.sourcelist())
-
 @app.route("/forms/sourcelist")
 def sourcelist_props():
     return jsonify({
