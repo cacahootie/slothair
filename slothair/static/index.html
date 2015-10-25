@@ -23,7 +23,7 @@
 
         <script type="text/html" id="header_templ">
             <div id="header">
-                <h1>SlothAir</h1>
+                <h1><a href="#">SlothAir</a></h1>
                 <h3><a href="#search">SuperSearch</a></h3>
             </div>
         </script>
@@ -47,10 +47,15 @@
             </div>
         </script>
 
+        <script type="text/html" id="search_results_templ">
+            <h1>Results Loading!</h1>
+        </script>
+
         <script type="text/html" id="search_form">
-            <h1>SlothAir SuperSearch</h1>
-            <div id='editor_holder'></div>
-            <button id='submit'>Submit (console.log)</button>
+            <div id="search_container">
+                <div id='editor_holder'></div>
+                <button id='submit'>Submit</button>
+            </div>
         </script>
 
         <!-- Prereqs -->

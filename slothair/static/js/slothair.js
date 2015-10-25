@@ -13,14 +13,28 @@ var AppView = BaseView.extend({
     }
 });
 
+var AirfareResultsView = BaseView.extend({
+    el:'#main',
+    template: $("#search_results_templ"),
+    initialize: function (querystring) {
+        BaseView.prototype.initialize.call(this);
+        var self = this;
+        d3.text('/search/results/?' + querystring, function (e,d) {
+            $(self.el).append(d);
+        })
+    }
+});
+
 var SearchView = BaseView.extend({
-    el:'#container',
+    el:'#main',
     template: $("#search_form").html(),
     initialize: function () {
         BaseView.prototype.initialize.call(this);
         var editor = new JSONEditor(document.getElementById('editor_holder'),{
             ajax: true,
             theme: "bootstrap3",
+            disable_properties: true,
+            disable_edit_json: true,
             disable_collapse: true,
             schema: {
               type: "object",
@@ -57,7 +71,7 @@ var SearchView = BaseView.extend({
           });
       
         document.getElementById('submit').addEventListener('click',function() {
-            window.location.href = "/search/results/?" + $.param(editor.getValue());
+            window.location.href = "#results?" + $.param(editor.getValue());
         });
     }
 })
@@ -67,6 +81,7 @@ var AppRouter = Backbone.Router.extend({
         "":"origins",
         "routes/:source":"rts",
         "search":"search",
+        "results?*querystring":"results"
     },
     loadView: function(view,params,coll) {
         $('#main').empty()
@@ -105,9 +120,11 @@ var AppRouter = Backbone.Router.extend({
     },
     search: function () {
         this.loadView(SearchView,{});
+    },
+    results: function (querystring) {
+        this.loadView(AirfareResultsView,querystring);
     }
 });
-
 
 var base = new AppView();
 var router = new AppRouter();

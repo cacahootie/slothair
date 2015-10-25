@@ -1,17 +1,6 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>SlothAir Search</title>
-        <link href='http://fonts.googleapis.com/css?family=Prosto+One' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="/static/css/search.css" type="text/css">
-    </head>
-    
-    <body>
-        <div class="search_results">
-        {% for result in results %}
-            {% include 'search_result.html' %}
-        {% endfor %}
-        </div>
-    </body>
-</html>
+
+<div class="search_results">
+{% for result in results %}
+    {% include 'search_result.html' %}
+{% endfor %}
+</div>
