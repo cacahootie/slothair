@@ -8,7 +8,6 @@ import psycopg2
 import psycopg2.extras
 from flask import Flask, jsonify, render_template, redirect, request
 
-from forms import FlightSearchForm
 from interfaces.qpx import get_routes, get_sorted
 from formatters import isodate_time, duration, currency_symbol
 import models
@@ -37,10 +36,6 @@ app.jinja_env.filters['currency_symbol'] = currency_symbol
 def index():
     return open(index_path).read()
 
-@app.route("/search/", methods=['GET'])
-def search_get():
-    return render_template('search.html', form = FlightSearchForm())
-
 def get_routes_sorted():
     return get_sorted( get_routes(
             request.args.get('origin'),
@@ -50,20 +45,6 @@ def get_routes_sorted():
             request.args.get('refundable')
         ), request.args.get('sortby')
     )
-
-@app.route("/search/", methods=['POST'])
-def search_post():
-    form = FlightSearchForm(request.form)
-    if form.validate():
-        return redirect('/search/results/?' + urllib.urlencode({
-            "origin": form.origin.data,
-            "destination": form.dest.data,
-            "departure": form.date.data,
-            "numresults": form.numresults.data,
-            "refundable": form.refundable.data,
-            "sortby": form.sortby.data,
-            "result_format": form.result_format.data
-        }))
 
 @app.route("/search/results/", methods=['GET'])
 def search_results():
