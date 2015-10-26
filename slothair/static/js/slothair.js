@@ -18,7 +18,8 @@ var AppRouter = Backbone.Router.extend({
         "":"origins",
         "routes/:source":"rts",
         "search":"search",
-        "results?*querystring":"results"
+        "results?*querystring":"results",
+        "origin?*querystring":"origin"
     },
     loadView: function(view,params,coll) {
         $('#main').empty()
@@ -60,6 +61,9 @@ var AppRouter = Backbone.Router.extend({
     },
     results: function (querystring) {
         this.loadView(AirfareResultsView,querystring);
+    },
+    origin: function (querystring) {
+        this.loadView(OriginSearchView,querystring);
     }
 });
 

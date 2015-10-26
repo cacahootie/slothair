@@ -5,7 +5,7 @@ from flask import Flask, jsonify, render_template, request
 
 from app import app
 import models
-from interfaces.qpx import get_sorted, get_routes
+from interfaces.qpx import get_sorted, get_routes, get_origin_trips
 
 basedir = os.path.dirname(os.path.abspath(__file__))
 index_path = os.path.join(basedir,'static','index.html')
@@ -26,11 +26,14 @@ def get_routes_sorted():
         ), request.args.get('sortby')
     )
 
-def get_origin_routes_sorted(origin):
+def get_origin_routes_sorted():
     return get_sorted(
-        models.origin_routes(origin),
-        'price'
-    )
+        get_origin_trips(
+            request.args.get('origin'),
+            request.args.get('departure'),
+            request.args.get('return_'),
+        ),
+    'price')
 
 @app.route("/search/results/", methods=['GET'])
 def search_results():
@@ -42,11 +45,11 @@ def search_results():
     elif request.args.get('result_format') == 'json':
         return jsonify({"results":get_routes_sorted()})
 
-@app.route("/search/origin/<origin>/", methods=['GET'])
-def origin_results(origin):
+@app.route("/search/origin/", methods=['GET'])
+def origin_results():
     return render_template(
         'search_results.html',
-        results = get_origin_routes_sorted(origin)
+        results = get_origin_routes_sorted()
     )
 
 @app.route("/routes/<source>")

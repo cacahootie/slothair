@@ -4,7 +4,7 @@ var OriginSearchView = BaseView.extend({
     initialize: function (querystring) {
         BaseView.prototype.initialize.call(this);
         var self = this;
-        d3.text('/search/results/?' + querystring, function (e,d) {
+        d3.text('/search/origin/?' + querystring, function (e,d) {
             $(self.el).append(d);
         })
     }

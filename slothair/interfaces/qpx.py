@@ -11,6 +11,7 @@ from flask import g
 
 from sorters import sorters
 from memoize import memoized
+from slothair import models
 
 baseurl = "https://www.googleapis.com/qpxExpress/v1/trips/search"
 headers = {'content-type': 'application/json'}
@@ -38,6 +39,12 @@ def get_routes(origin, dest, departure, return_, numresults, refundable,
 		refundable,
 		booking_class
 	)
+
+def get_origin_trips(origin, departure, return_):
+	return get_multi([
+		(origin, dest, departure, return_)
+		for dest in models.origin_routes(origin)['results']
+	], 50, False, "COACH")
 
 def get_dates(dates):
 	if dates is None:
@@ -98,7 +105,7 @@ def get_multi(possibilities, numresults, refundable, booking_class):
 	try:
 		for p in possibilities[1:]:
 			subresult, p_data = get_slice_trips(
-				get_slice(*p + (numresults, refundable) )
+				get_slice(*p + (numresults, refundable, booking_class) )
 			)
 			update_data(data, p_data)
 			trips += subresult
