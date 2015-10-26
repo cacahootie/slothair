@@ -21,7 +21,8 @@ def get_routes_sorted():
             request.args.get('departure'),
             request.args.get('return_'),
             request.args.get('numresults'),
-            request.args.get('refundable')
+            request.args.get('refundable'),
+            request.args.get('booking_class'),
         ), request.args.get('sortby')
     )
 

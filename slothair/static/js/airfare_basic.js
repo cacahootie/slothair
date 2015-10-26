@@ -41,10 +41,14 @@ var SearchView = BaseView.extend({
                     format: "date",
                     optional: true
                 },
+                booking_class: {
+                    type: "string",
+                    enum: ["COACH","PREMIUM_COACH","BUSINESS","FIRST"]
+                },
                 numresults: {
                     type: "string",
                     format: "number",
-                    default: 10
+                    default: 50
                 },
                 refundable: {
                     type: "boolean"
@@ -62,7 +66,12 @@ var SearchView = BaseView.extend({
           });
       
         document.getElementById('submit').addEventListener('click',function() {
-            window.location.href = "#results?" + $.param(editor.getValue());
+            var query = editor.getValue();
+            if (query.result_format == 'html') {
+                window.location.href = "#results?" + $.param(query);
+            } else {
+                window.location.href = "/search/results/?" + $.param(query);
+            }
         });
     }
 });
