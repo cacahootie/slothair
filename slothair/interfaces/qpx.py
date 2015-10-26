@@ -25,18 +25,21 @@ basequery = open(
 def get_sorted(routes, sortby):
 	return sorted(routes, key=sorters[sortby])
 
-def get_routes(origin, dest, date, numresults, refundable):
+def get_routes(origin, dest, departure, return_, numresults, refundable):
 	return get_multi(
 		get_possibilities(
 			origin,
 			dest,
-			date
+			departure,
+			return_
 		),
 		numresults,
 		refundable
 	)
 
 def get_dates(dates):
+	if dates is None:
+		return []
 	if '+' in dates:
 		start, number = dates.split('+')
 		start = dtparse.parse(start).date()
@@ -48,12 +51,20 @@ def get_dates(dates):
 	else:
 		return dates.split(',')
 
-def get_possibilities(origins, destinations, dates):
+def get_possibilities(origins, destinations, departure, return_):
+	if return_ :
+		return list(product(
+			origins.split(','),
+			destinations.split(','),
+			get_dates(departure),
+			get_dates(return_)
+		))
 	return list(product(
-		origins.split(','),
-		destinations.split(','),
-		get_dates(dates)
-	))
+			origins.split(','),
+			destinations.split(','),
+			get_dates(departure),
+			[None]
+		))
 
 def update_data(orig, upd):
 	retval = {}
@@ -100,14 +111,20 @@ def get_slice_trips(tslice):
 		print tslice
 		raise
 
-def get_slice(origin, dest, date, numresults, refundable):
+def get_slice(origin, dest, departure, return_, numresults, refundable):
 	params = {
 		"key": apikey
 	}
 	query = json.loads(basequery)
 	query['request']['slice'][0]['origin'] = origin
 	query['request']['slice'][0]['destination'] = dest
-	query['request']['slice'][0]['date'] = date
+	query['request']['slice'][0]['date'] = departure
+	if return_ is not None:
+		query['request']['slice'].append({
+			'origin': dest,
+			'destination': origin,
+			'date': return_
+		})
 	query['request']['solutions'] = numresults
 	query['request']['refundable'] = refundable
 	r = requests.post(

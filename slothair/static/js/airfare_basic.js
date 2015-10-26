@@ -35,6 +35,12 @@ var SearchView = BaseView.extend({
                     type: "string",
                     format: "date"
                 },
+                return_: {
+                    type: "string",
+                    label:"return date",
+                    format: "date",
+                    optional: true
+                },
                 numresults: {
                     type: "string",
                     format: "number",

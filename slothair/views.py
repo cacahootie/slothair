@@ -19,7 +19,7 @@ def get_routes_sorted():
             request.args.get('origin'),
             request.args.get('destination'),
             request.args.get('departure'),
-            request.args.get('return'),
+            request.args.get('return_'),
             request.args.get('numresults'),
             request.args.get('refundable')
         ), request.args.get('sortby')
