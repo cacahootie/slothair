@@ -70,3 +70,19 @@ def sourcelist():
         return {
             "results":sorted(r[0] for r in cur)
         }
+
+def origin_routes(origin):
+    with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
+        cur.execute("""
+            SELECT 
+                DEST_IATA
+            FROM ROUTES 
+            WHERE SOURCE_IATA = %s 
+            GROUP BY DEST_IATA 
+            ORDER BY COUNT(DEST_IATA) DESC
+            LIMIT 10
+            ;""", (origin,)
+        )
+        return {
+            "results":[r[0] for r in cur]
+        }

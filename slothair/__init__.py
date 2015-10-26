@@ -46,6 +46,12 @@ def get_routes_sorted():
         ), request.args.get('sortby')
     )
 
+def get_origin_routes_sorted(origin):
+    return get_sorted(
+        models.origin_routes(origin),
+        'price'
+    )
+
 @app.route("/search/results/", methods=['GET'])
 def search_results():
     if request.args.get('result_format') == 'html':
@@ -55,6 +61,13 @@ def search_results():
         )
     elif request.args.get('result_format') == 'json':
         return jsonify({"results":get_routes_sorted()})
+
+@app.route("/search/origin/<origin>/", methods=['GET'])
+def origin_results(origin):
+    return render_template(
+        'search_results.html',
+        results = get_origin_routes_sorted(origin)
+    )
 
 @app.route("/routes/<source>")
 def routes(source):
@@ -67,6 +80,10 @@ def airport(iata):
 @app.route("/sources")
 def sources():
     return jsonify(models.sources())
+
+@app.route("/mostlinked/<origin>/")
+def mostlinked(origin):
+    return jsonify(models.mostlinked(origin))
 
 @app.route("/forms/sourcelist")
 def sourcelist_props():
