@@ -86,3 +86,26 @@ def origin_routes(origin):
         return {
             "results":[r[0] for r in cur]
         }
+
+def origin_routes_international(origin):
+    with conn.cursor(cursor_factory=psycopg2.extras.DictCursor) as cur:
+        cur.execute("""
+            SELECT 
+                DEST_IATA
+            FROM (
+                SELECT * FROM ROUTES
+                JOIN AIRPORTS as dep
+                    ON ROUTES.source_iata = dep.iata_faa_id
+                JOIN AIRPORTS as arr
+                    ON ROUTES.dest_iata = arr.iata_faa_id
+                WHERE dep.country != arr.country
+            ) AS INTERNATIONAL_ROUTES
+            WHERE SOURCE_IATA = %s 
+            GROUP BY DEST_IATA 
+            ORDER BY COUNT(DEST_IATA) DESC
+            LIMIT 10
+            ;""", (origin,)
+        )
+        return {
+            "results":[r[0] for r in cur]
+        }

@@ -40,10 +40,14 @@ def get_routes(origin, dest, departure, return_, numresults, refundable,
 		booking_class
 	)
 
-def get_origin_trips(origin, departure, return_):
+def get_origin_trips(origin, departure, return_, international):
+	if international not in (None, False):
+		dests = models.origin_routes_international(origin)['results']
+	else:
+		dests = models.origin_routes(origin)['results']
 	return get_multi([
 		(origin, dest, departure, return_)
-		for dest in models.origin_routes(origin)['results']
+		for dest in dests
 	], 50, False, "COACH")
 
 def get_dates(dates):
