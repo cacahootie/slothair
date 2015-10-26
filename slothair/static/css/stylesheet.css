@@ -103,6 +103,7 @@ div#header > h1 {
 
 div#header > h3 {
 	display: inline;
+	margin-left: 1em;
 }
 
 div#header_inner {
