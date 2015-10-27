@@ -11,6 +11,22 @@ var MapviewView = MainView.extend({
 	template: $("#mapview_templ").html(),
 });
 
+
+var MapResultsView = BaseView.extend({
+    el: '#main',
+    template: $("#mapview_templ").html(),
+    initialize: function (params) {
+        BaseView.prototype.initialize.call(this)
+        var results_url = params.url,
+            results_label = params.label
+        var self = this
+        d3.json(results_url, function(d) {
+            self.mapview = new MapView(d)
+            self.resultsview = new ResultsView(d, results_label)
+        })
+    }
+});
+
 var MapState = new MapState();
 var MapView = BaseView.extend({
     el: '#map',
@@ -20,8 +36,9 @@ var MapView = BaseView.extend({
         MapState.set('mapCenter', this.map.getCenter());
         MapState.set('mapZoom', this.map.getZoom());
     },
-    initialize: function () {
-        BaseView.prototype.initialize.call(this);
+    initialize: function (route_layer) {
+        BaseView.prototype.initialize.call(this)
+        this.load_layer(route_layer)
     },
     render: function(){
         var mapCenter = MapState.get('mapCenter');

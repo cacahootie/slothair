@@ -68,7 +68,7 @@ var SearchView = BaseView.extend({
         document.getElementById('submit').addEventListener('click',function() {
             var query = editor.getValue();
             if (query.result_format == 'html') {
-                window.location.href = "#results?" + $.param(query);
+                window.location.href = "#basic_results?" + $.param(query);
             } else {
                 window.location.href = "/search/results/?" + $.param(query);
             }

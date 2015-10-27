@@ -1,6 +1,10 @@
 var ResultsView = BaseView.extend({
 	el: '#results',
     template: $("#results_templ").html(),
+    initialize: function (results, whichend) {
+        BaseView.prototype.initialize.call(this)
+        this.load_results(results,whichend)
+    },
     load_results: function(d, whichend) {
         var result_div = d3.select('#result_container');
         result_div.html('');

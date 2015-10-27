@@ -6,19 +6,15 @@ var AppView = BaseView.extend({
     initialize: function() {
     	BaseView.prototype.initialize.call(this);
         this.header = new HeaderView();
-        this.mapviewview = new MapviewView();
-        this.mapview = new MapView();
-        this.resultsview = new ResultsView();
-        return this;
     }
 });
 
 var AppRouter = Backbone.Router.extend({
     routes: {
         "":"origins",
-        "routes/:source":"rts",
-        "search":"search",
-        "results?*querystring":"results",
+        "routes/:origin":"rts",
+        "basic_search":"basic_search",
+        "basic_results?*querystring":"basic_results",
         "origin_search":"origin_search",
         "origin_results?*querystring":"origin_results"
     },
@@ -44,23 +40,21 @@ var AppRouter = Backbone.Router.extend({
         }
     },
     origins: function () {
-        var self = this;
-        d3.json('/sources', function(d) {
-            self.view.mapview.load_layer(d);
-            self.view.resultsview.load_results(d, 'Origins');
-        });
+        this.loadView(MapResultsView,{
+            url:'/origins/',
+            label: 'Origins'
+        })
     },
-    rts: function (source) {
-        var self = this;
-        d3.json('/routes/' + source, function(d) {
-            self.view.mapview.select_route(d, source);
-            self.view.resultsview.load_results(d, 'Destinations');
-        });
+    rts: function (origin) {
+        this.loadView(MapResultsView,{
+            url:'/routes/' + origin,
+            label: 'Destinations'
+        })
     },
-    search: function () {
+    basic_search: function () {
         this.loadView(SearchView,{});
     },
-    results: function (querystring) {
+    basic_results: function (querystring) {
         this.loadView(AirfareResultsView,querystring);
     },
     origin_search: function () {

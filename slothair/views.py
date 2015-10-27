@@ -61,7 +61,7 @@ def routes(source):
 def airport(iata):
     return jsonify(models.airport(iata))
 
-@app.route("/sources")
+@app.route("/origins/")
 def sources():
     return jsonify(models.sources())
 
