@@ -48,7 +48,8 @@ var AppRouter = Backbone.Router.extend({
     rts: function (origin) {
         this.loadView(MapResultsView,{
             url:'/routes/' + origin,
-            label: 'Destinations'
+            label: 'Destinations',
+            origin: origin
         })
     },
     basic_search: function () {

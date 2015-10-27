@@ -18,10 +18,14 @@ var MapResultsView = BaseView.extend({
     initialize: function (params) {
         BaseView.prototype.initialize.call(this)
         var results_url = params.url,
-            results_label = params.label
+            results_label = params.label,
+            origin = params.origin
         var self = this
         d3.json(results_url, function(d) {
             self.mapview = new MapView(d)
+            if (origin) {
+                self.mapview.select_route(d, origin)
+            }
             self.resultsview = new ResultsView(d, results_label)
         })
     }
