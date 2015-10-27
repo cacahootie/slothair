@@ -25,6 +25,8 @@ var MapResultsView = BaseView.extend({
             self.mapview = new MapView(d)
             if (origin) {
                 self.mapview.select_route(d, origin)
+            } else {
+                self.mapview.load_layer(d)
             }
             self.resultsview = new ResultsView(d, results_label)
         })
@@ -42,7 +44,6 @@ var MapView = BaseView.extend({
     },
     initialize: function (route_layer) {
         BaseView.prototype.initialize.call(this)
-        this.load_layer(route_layer)
     },
     render: function(){
         var mapCenter = MapState.get('mapCenter');
