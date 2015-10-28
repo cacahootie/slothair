@@ -2,27 +2,31 @@
     <div class="result_summary">
         <h3>{{ result.saleTotal|currency_symbol }}</h3>
     </div>
-{% for slice in result.slice %}
-    <div class="slice_duration">
-        <h4 class="slice_duration_inner">{{ slice.duration|duration }}</h2>
-    </div>
-    <div class="slice_segment">
-        {% for segment in slice.segment %}
-                <div class="flight_info">
-                    <span class="flight_carrier">{{ segment.flight.carrier_display }}</span>
-                    <span class="flight_number">{{ segment.flight.number }}</span>
-                </div>
-                {% for leg in segment.leg %}
-                    <div class="flight_leg">
-                        {{ leg.departureTime|isodate_time }} {{ leg.origin }} --> {{ leg.arrivalTime|isodate_time }} {{ leg.destination }} : {{ leg.duration|duration }}
-                    </div>
+    <div class="result_detail">
+        {% for slice in result.slice %}
+        <div class="slice_container">
+            <div class="slice_duration">
+                <h4 class="slice_duration_inner">{{ slice.duration|duration }}</h2>
+            </div>
+            <div class="slice_segment">
+                {% for segment in slice.segment %}
+                        <div class="flight_info">
+                            <span class="flight_carrier">{{ segment.flight.carrier_display }}</span>
+                            <span class="flight_number">{{ segment.flight.number }}</span>
+                        </div>
+                        {% for leg in segment.leg %}
+                            <div class="flight_leg">
+                                {{ leg.departureTime|isodate_time }} {{ leg.origin }} --> {{ leg.arrivalTime|isodate_time }} {{ leg.destination }} : {{ leg.duration|duration }}
+                            </div>
+                        {% endfor %}
                 {% endfor %}
+            </div>
+            <div class="slice_refundable">
+                {% if result.pricing.0.refundable %}
+                    <span>Refundable</span>
+                {% endif %}
+            </div>
+        </div>
         {% endfor %}
     </div>
-    <div class="slice_refundable">
-        {% if result.pricing.0.refundable %}
-            <span>Refundable</span>
-        {% endif %}
-    </div>
-{% endfor %}
 </div>

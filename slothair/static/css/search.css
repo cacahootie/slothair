@@ -16,32 +16,43 @@ div.searchbox {
 }
 
 div.search_results {
-	width: 960px;
-	margin-right: auto;
-	margin-left: auto;
+	/* width: 960px; */
+	/* margin-right: auto; */
+	/* margin-left: auto; */
+	padding-right: 10px;
 }
 
 div.search_result {
 	display: block;
 	background: lightgray;
-	width: 960px;
-	border: 1px solid black;
-	margin: 20px;
-	padding: 10px;
-	min-height: 120px;
+	/* width: 100%; */
+	/* border: 1px solid darkgray; */
+	/* margin-bottom: 1px; */
+	margin-left: 5px;
+	min-height: 200px;
 }
 
 .result_summary {
 	margin: 5px;
+	margin-top:;
 	color: blue;
+	float: left;
+	min-height: 190px;
+}
+
+.result_detail {
+    float: left;
+    width: 90%;
+    min-height: 190px;
 }
 
 .slice_duration {
     float: left;
-    height: 2em;
+    /* position: absolute; */
     margin: 1em;
-    margin-right: 1em;
-    
+    margin-top: 0;
+    vertical-align: middle;
+    height: 100%;
 }
 
 .slice_duration_inner {
@@ -55,6 +66,12 @@ div.search_result {
 	position: relative;
 	top: -4em;
 	right: 1em;
+}
+
+.slice_container {
+    /* width: 90%; */
+    /* height: 100%; */
+    padding: 1em;
 }
 
 .flight_info {
