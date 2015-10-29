@@ -31,6 +31,9 @@ var OriginSearchView = BaseView.extend({
                 international: {
                     type: "boolean"
                 },
+                carrier: {
+                    type: "string"
+                },
                 departure: {
                     type: "string",
                     format: "date"

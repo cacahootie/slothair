@@ -4,6 +4,7 @@ import json
 from itertools import product
 from operator import itemgetter
 import datetime
+from pprint import pprint
 
 import requests
 import dateutil.parser as dtparse
@@ -43,7 +44,7 @@ def get_routes(origin, dest, departure, return_, numresults, refundable,
         booking_class
     )
 
-def get_origin_trips(origin, departure, return_, international):
+def get_origin_trips(origin, departure, return_, international, carrier):
     if international not in (None, False):
         dests = models.origin_routes_international(origin)['results']
     else:
@@ -51,7 +52,7 @@ def get_origin_trips(origin, departure, return_, international):
     return get_multi([
         (origin, dest, departure, return_)
         for dest in dests
-    ], 50, False, "COACH")
+    ], 50, False, "COACH", carrier)
 
 def get_dates(dates):
     if dates is None:
@@ -104,10 +105,11 @@ def process_data(trips, data):
                     )
     return trips
 
-def get_multi(possibilities, numresults, refundable, booking_class):
+def get_multi(possibilities, numresults, refundable, booking_class,
+        carrier = None):
     try:
         futures = [
-            get_slice(*p + (numresults, refundable, booking_class) )
+            get_slice(*p + (numresults, refundable, booking_class, carrier) )
             for p in possibilities
         ]
         trips, data = None, None
@@ -115,6 +117,8 @@ def get_multi(possibilities, numresults, refundable, booking_class):
             subresult, p_data = get_slice_trips(
                 future.result().json()
             )
+            if subresult is None and p_data is None:
+                continue
             if data is None:
                 data = p_data
                 trips = subresult
@@ -129,11 +133,10 @@ def get_slice_trips(tslice):
     try:
         return tslice['trips']['tripOption'], tslice['trips']['data']
     except KeyError:
-        print tslice
-        raise
+        return None, None
 
 def get_slice(origin, dest, departure, return_, numresults, refundable, 
-        booking_class):
+        booking_class, carrier):
     params = {
         "key": apikey
     }
@@ -142,14 +145,16 @@ def get_slice(origin, dest, departure, return_, numresults, refundable,
         'origin': origin,
         'destination': dest,
         'date': departure,
-        'preferredCabin': booking_class if booking_class else "COACH"
+        'preferredCabin': booking_class if booking_class else "COACH",
+        'permittedCarrier': [carrier]
     })
     if return_ is not None:
         query['request']['slice'].append({
             'origin': dest,
             'destination': origin,
             'date': return_,
-            'preferredCabin': booking_class if booking_class else "COACH"
+            'preferredCabin': booking_class if booking_class else "COACH",
+            'permittedCarrier': [carrier]
         })
     query['request']['solutions'] = numresults
     query['request']['refundable'] = refundable

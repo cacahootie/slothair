@@ -25,11 +25,13 @@ div.search_results {
 div.search_result {
 	display: block;
 	background: lightgray;
+	border: 1px solid gray;
 	/* width: 100%; */
 	/* border: 1px solid darkgray; */
 	/* margin-bottom: 1px; */
 	margin-left: 5px;
 	min-height: 200px;
+	border-bottom: 0px;
 }
 
 .result_summary {

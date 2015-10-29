@@ -32,7 +32,8 @@ def get_origin_routes_sorted():
             request.args.get('origin'),
             request.args.get('departure'),
             request.args.get('return_'),
-            bool(request.args.get('international'))
+            bool(request.args.get('international')),
+            request.args.get('carrier'),
         ),
     'price')
 
